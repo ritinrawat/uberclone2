@@ -1,0 +1,151 @@
+# UberClone
+
+This project is a clone of the Uber application, built using Node.js for the backend and React for the frontend. It includes features for user and captain registration, login, ride creation, fare calculation, and real-time ride tracking using Socket.io.
+
+## Project Structure
+
+The project is divided into two main folders:
+
+- `Backend/`: Contains the backend code.
+- `Frontend/`: Contains the frontend code.
+
+### Backend
+
+The backend is built using Node.js and Express. It includes the following main components:
+
+- **Controllers**: Handle the HTTP requests and responses.
+- **Models**: Define the data schema using Mongoose.
+- **Services**: Contain the business logic.
+- **Middleware**: Handle authentication and other middleware functions.
+- **Routes**: Define the API endpoints.
+- **Socket**: Handle real-time communication using Socket.io.
+
+#### Controllers
+
+- `captain.controller.js`: Handles captain registration, login, profile retrieval, and logout.
+- `map.controller.js`: Handles map-related operations such as getting coordinates, distance, and autocomplete suggestions.
+- `ride.controller.js`: Handles ride creation, fare calculation, ride confirmation, start, and end.
+- `user.controllers.js`: Handles user registration, login, profile retrieval, and logout.
+
+#### Models
+
+- `blacklistToken.model.js`: Defines the schema for blacklisted tokens.
+- `captain.model.js`: Defines the schema for captains.
+- `ride.model.js`: Defines the schema for rides.
+- `user.model.js`: Defines the schema for users.
+
+#### Services
+
+- `captain.service.js`: Contains the business logic for captain-related operations.
+- `location.service.js`: Contains the business logic for location-related operations.
+- `map.service.js`: Contains the business logic for map-related operations.
+- `ride.services.js`: Contains the business logic for ride-related operations.
+- `user.service.js`: Contains the business logic for user-related operations.
+
+#### Middleware
+
+- `auth-middleware.js`: Handles authentication for users and captains.
+
+#### Routes
+
+- `captain.routes.js`: Defines the API endpoints for captain-related operations.
+- `ride.routes.js`: Defines the API endpoints for ride-related operations.
+- `user.rauter.js`: Defines the API endpoints for user-related operations.
+- `maps.routes.js`: Defines the API endpoints for map-related operations.
+
+#### Socket
+
+- `socket.js`: Handles real-time communication using Socket.io.
+
+### Frontend
+
+The frontend is built using React and Vite. It includes the following main components:
+
+- **Pages**: Define the main pages of the application.
+- **Components**: Define reusable UI components.
+- **Context**: Define the context for managing global state.
+
+#### Pages
+
+- `Home.jsx`: The home page of the application.
+- `UserLogin.jsx`: The login page for users.
+- `UserSignup.jsx`: The signup page for users.
+- `CaptainLogin.jsx`: The login page for captains.
+- `CaptainSignup.jsx`: The signup page for captains.
+- `Start.jsx`: The page for starting a ride.
+- `Riding.jsx`: The page for tracking an ongoing ride.
+- `CaptainHome.jsx`: The home page for captains.
+- `CaptainRidePopUp.jsx`: The page for displaying ride details to captains.
+- `UserLogout.jsx`: The logout page for users.
+- `CaptainLogout.jsx`: The logout page for captains.
+- `UserProtectWrapper.jsx`: A wrapper component for protecting user routes.
+- `CaptainProtectWrapper.jsx`: A wrapper component for protecting captain routes.
+
+#### Components
+
+- `CaptainDetails.jsx`: Displays the details of the captain.
+- `ConfirmRide.jsx`: Displays the confirmation dialog for a ride.
+- `ConfirmRidePopUpRef.jsx`: Displays the confirmation dialog for a ride with OTP input.
+- `FinishRide.jsx`: Displays the finish ride dialog.
+- `LiveTraking.jsx`: Displays the live tracking map.
+- `LocationPanel.jsx`: Displays the location suggestions panel.
+- `LookingForDriver.jsx`: Displays the looking for driver dialog.
+- `RidePopUp.jsx`: Displays the ride popup for captains.
+- `VehiclePanel.jsx`: Displays the vehicle selection panel.
+- `WhatingForDriver.jsx`: Displays the waiting for driver dialog.
+
+#### Context
+
+- `CaptainContext.jsx`: Manages the global state for captains.
+- `SocketContext.jsx`: Manages the global state for Socket.io.
+- `UserContext.jsx`: Manages the global state for users.
+
+## How to Run
+
+### Backend
+
+1. Navigate to the `Backend` folder.
+2. Install the dependencies:
+   ```sh
+   npm install
+   ```
+3. Create a `.env` file with the following content:
+   ```
+   PORT=4000
+   DB_CONNECT=mongodb://0.0.0.0/uberclone
+   JWT_SECRET=uber-video-secret
+   GOOGLE_MAPS_API=YOUR_GOOGLE_MAPS_API_KEY
+   ```
+4. Start the backend server:
+   ```sh
+   npm start
+   ```
+
+### Frontend
+
+1. Navigate to the `Frontend` folder.
+2. Install the dependencies:
+   ```sh
+   npm install
+   ```
+3. Create a `.env` file with the following content:
+   ```
+   VITE_BASE_URL=http://localhost:4000
+   React_GOOGLE_MAPS_API=YOUR_GOOGLE_MAPS_API_KEY
+   ```
+4. Start the frontend development server:
+   ```sh
+   npm run dev
+   ```
+
+## Usage
+
+1. Open the frontend application in your browser at `http://localhost:3000`.
+2. Register as a user or captain.
+3. Login as a user or captain.
+4. As a user, you can create a ride and track it in real-time.
+5. As a captain, you can accept rides and track them in real-time.
+
+## License
+
+This project is licensed under the MIT License.
