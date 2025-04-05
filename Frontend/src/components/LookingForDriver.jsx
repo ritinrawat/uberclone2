@@ -2,7 +2,7 @@ import React from 'react'
 
 function LookingForDriver(props) {
   return (
-    <div >
+    <div className='p-0 m-0' >
   <h5 className='p-1 text-center w-[93] absolute top-0' onClick={()=>{
   props.setVehicleFound(false)
   }}>
@@ -13,13 +13,13 @@ function LookingForDriver(props) {
   </h5>
   <h3 className='text-2xl font-semibold '>Looking for Driver</h3>
   <div className='flex justify-between flex-col items-center  '>
-    <img className='w-[40%]' src="https://www.uber-assets.com/image/upload/f_auto,q_auto:eco,c_fill,h_368,w_552/v1712027307/assets/42/eb85c3-e2dc-4e95-a70d-22ee4f08015f/original/Screenshot-2024-04-01-at-9.08.07p.m..png" alt="" />
+    <img className='w-[40%]' src={props.vehicleImage}alt="" />
     <div className='w-full'>
       <div className='flex items-center p-1 border-b-2  gap-5'>
         <i className='ri-map-pin-fill'></i>
         <div><h3 className='text-lg font-medium'>Pickup</h3>
         <p className='text-base text-gray-600'>{props.pickup}</p></div>
-        </div>      
+        </div> 
       <div className='flex items-center p-1 border-b-2  gap-5'>
       <i className="ri-square-fill"></i>
         <div>

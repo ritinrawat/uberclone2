@@ -38,7 +38,7 @@ function UserSignup() {
     <div className='p-7 h-screen flex flex-col justify-between' >
     <div>
       <div className='p-4'>
-      <img className='w-20 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png" alt="" />
+      <img className='w-20 ' src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png" alt="" />
       </div>
 
          <form onSubmit={(e)=>submitHandler(e)} action="">

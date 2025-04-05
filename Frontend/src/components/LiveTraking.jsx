@@ -123,7 +123,11 @@ const LiveTracking = ({ ride }) => {
       )}
     </MapContainer>
   ) : (
-    <p className="text-center">Loading your location...</p>
+   
+    <div class="fixed inset-0 flex items-center justify-center bg-white z-50">
+  <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+  <p className="text-center p-3">Loading your location...</p>
+</div>
   )}
 </div>
   );

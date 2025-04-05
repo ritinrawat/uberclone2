@@ -34,9 +34,6 @@ const [fare,setFare]= useState({})
 const [vehicleType,setVehicleType]=useState(null)
 const [vehicleImage,setVehicleImage]=useState(null)
 const [ride,setRide]=useState(null)
-const [coordination,setCoordination]=useState(null)
-const [flag,setFlage]=useState(false)
-
 const {socket}=useContext(SocketContext)
 const {user}=useContext(UserDataContext)
 const navigate=useNavigate()
@@ -100,7 +97,7 @@ e.preventDefault()
   useGSAP(function(){
     if(panelopen){
       gsap.to(panelRef.current,{
-        height:'70%'
+        height:'60%'
       })
       gsap.to(panelCloseRef.current,{
         opacity:1
@@ -119,11 +116,13 @@ e.preventDefault()
   useGSAP(function(){
    if(vehiclePanel){
     gsap.to(vehiclePanelRef.current,{
-      transform:'translateY(0)'
+      transform:'translateY(0)',
+      
       })
    }else{
     gsap.to(vehiclePanelRef.current,{
-      transform:'translateY(100%)'
+      transform:'translateY(100%)',
+      
       })
  }
   },[vehiclePanel])
@@ -131,11 +130,13 @@ e.preventDefault()
   useGSAP(function(){
     if(confirmRide){
      gsap.to(confirmRidePanelRef.current,{
-       transform:'translateY(0)'
+       transform:'translateY(0)',
+       
        })
     }else{
      gsap.to(confirmRidePanelRef.current,{
-       transform:'translateY(100%)'
+       transform:'translateY(100%)',
+       
        })
   }
    },[confirmRide])
@@ -143,11 +144,13 @@ e.preventDefault()
    useGSAP(function(){
     if(vehicleFound){
      gsap.to(lookingForDriverRef.current,{
-       transform:'translateY(0)'
+       transform:'translateY(0)',
+       
        })
     }else{
      gsap.to(lookingForDriverRef.current,{
-       transform:'translateY(100%)'
+       transform:'translateY(200%)',
+       
        })
   }
    },[vehicleFound])
@@ -155,11 +158,13 @@ e.preventDefault()
    useGSAP(function(){
     if(waitingDriver){
      gsap.to(waitingForDriverRef.current,{
-       transform:'translateY(0)'
+       transform:'translateY(0)',
+       
        })
     }else{
      gsap.to(waitingForDriverRef.current,{
-       transform:'translateY(100%)'
+       transform:'translateY(100%)',
+      
        })
   }
    },[waitingDriver])
@@ -199,8 +204,7 @@ e.preventDefault()
          }
      })
      console.log("duration",response.data);
-     setCoordination(response.data)
-    setFlage(true)
+
     } catch (error) {
       console.error("Error creating ride:", error.message);
       if (error.response) {
@@ -240,7 +244,7 @@ e.preventDefault()
     </div>
     </div>
     <div ref={vehiclePanelRef}  className='fixed w-full translate-y-full z-10 bg-white bottom-0 px-3 py-10' >
-    <VehiclePanel fare={fare}  setVehicleImage={setVehicleImage} setVehicleType={setVehicleType} setConfirmRide={setConfirmRide} setVehiclePanel={setVehiclePanel} />
+    <VehiclePanel fare={fare} ride={ride}  setVehicleImage={setVehicleImage} setVehicleType={setVehicleType} setConfirmRide={setConfirmRide} setVehiclePanel={setVehiclePanel} />
       </div>
       <div ref={confirmRidePanelRef} className='fixed w-full translate-y-full z-10 bg-white bottom-0 px-3 py-10' >
    <ConfirmRide fare={fare} vehicleImage={vehicleImage} createRide={createRide} vehicleType={vehicleType} pickup={pickup} destination={destination}  setVehicleFound={setVehicleFound} setVehiclePanel={setVehiclePanel} setConfirmRide={setConfirmRide} />
@@ -248,6 +252,7 @@ e.preventDefault()
       <div ref={lookingForDriverRef}  className='fixed w-full translate-y-full z-10 bg-white bottom-0 px-3 py-10' >
   <LookingForDriver fare={fare} vehicleImage={vehicleImage} createRide={createRide} vehicleType={vehicleType} pickup={pickup} destination={destination}  setWaitingDriver={setWaitingDriver} setVehicleFound={setVehicleFound}  />
       </div>
+   
       <div  ref={waitingForDriverRef}  className='fixed w-full translate-y-full z-10 bg-white bottom-0 px-3 py-10' >
     <WhatingForDriver ride={ride} setVehicleFound={setVehicleFound}  setWaitingDriver={setWaitingDriver}/>
       </div>

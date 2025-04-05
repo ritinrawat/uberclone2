@@ -32,8 +32,8 @@ function ConfirmRide(props) {
         </div>
        
     </div>
-    <button onClick={()=>{props.setVehicleFound(true)
-       props.createRide()}} className='w-full text-2xl text-white py-2 cursor-pointer bg-green-600 rounded-lg mt-2'>Confirm</button>
+    <button onClick={()=>{props.setVehicleFound(true)  
+    props.setConfirmRide(false),props.createRide()}} className='w-full text-2xl text-white py-2 cursor-pointer bg-green-600 rounded-lg mt-2'>Confirm</button>
   </div>
   
     </div>

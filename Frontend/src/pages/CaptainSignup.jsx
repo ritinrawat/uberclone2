@@ -54,7 +54,10 @@ if(response.status==201){
   return (
     <div className='p-7 h-screen flex flex-col justify-between'>
     <div>
-         <h1 className='text-5xl text-black font-bold py-5'>Uber</h1>
+      <div className='p-3'>
+      <img className='w-20 ' src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Uber_logo_2018.svg/2560px-Uber_logo_2018.svg.png" alt="" />
+      </div>
+   
          <form onSubmit={(e)=>submitHandler(e)} action="">
          <h3 className='text-lg mb-2 font-medium '>What is our Captain's Name</h3>
           <div className='flex gap-4 mb-3'>

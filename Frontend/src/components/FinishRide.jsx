@@ -14,7 +14,7 @@ function FinishRide(props) {
      Authorization:`Bearer ${localStorage.getItem("captaintoken")}`
     }   
  })
-  console.log("working properly",response.data)
+ 
    if(response.status==200){
      navigate('/captain-home')
    }

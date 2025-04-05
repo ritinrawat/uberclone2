@@ -37,10 +37,10 @@ function CaptainRidePopUp() {
     <h5 className='p-1 text-center w-[95%] absolute top-0  ' onClick={()=>setFinishRidePanel(true)}>
         <i className='text-3xl  ri-arrow-up-wide-line'></i>
     </h5>
-    <h4 className='text-xl font-semibold '>4 KM away</h4>
+    <h4 className='text-xl font-semibold '>{rideData?.distance} away</h4>
     <button className='bg-green-600 text-white font-semibold p-3 px-10 rounded-lg' >Complete Ride</button>
     </div>
-      <div ref={finshRidePanelRef}  className='h-screen fixed w-full  z-10 bg-white bottom-0 px-3 py-10' >
+      <div ref={finshRidePanelRef}  className='h-screen fixed w-full  z-10 bg-white bottom-0 px-3 py-10'>
         <FinishRide ride={rideData}  setFinishRidePanel={setFinishRidePanel} />
           </div>
     </div>

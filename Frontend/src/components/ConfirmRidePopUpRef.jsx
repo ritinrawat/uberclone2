@@ -73,7 +73,7 @@ const navigate = useNavigate()
           </h4>
         </div>
         <div>
-          <h4 className="text-xl font-semibold">{props.ride?.distance} {props.ride?.duration}</h4>
+          <h4 className="text-xl font-semibold">{props.ride?.distance}{props.ride?.duration}</h4>
         </div>
       </div>
 
