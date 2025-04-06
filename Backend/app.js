@@ -10,7 +10,11 @@ const captainRoutes=require('./router/captain.routes')
 const mapRoutes=require('./router/maps.routes')
 const rideRoutes = require('./router/ride.routes')
 const cors=require('cors')
-app.use(cors())
+
+app.use(cors({
+    origin: 'https://uberclone2-1.onrender.com',
+    credentials: true
+  }));
 app.use(express.json())
 app.use(express.urlencoded({extended:true})); 
 app.use(cookieParser())
