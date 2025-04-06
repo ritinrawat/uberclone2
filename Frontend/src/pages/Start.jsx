@@ -1,7 +1,7 @@
 import React, { useState,useRef, useEffect } from 'react'
 import {useGSAP} from '@gsap/react'
 import  gsap  from 'gsap'
-import 'remixicon/fonts/remixicon.CSS'
+import 'remixicon/fonts/remixicon.css';
 import LocationPanel from '../components/LocationPanel'
 import VehiclePanel from '../components/VehiclePanel'
 import ConfirmRide from '../components/ConfirmRide'
