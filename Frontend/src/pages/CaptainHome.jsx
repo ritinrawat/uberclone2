@@ -7,7 +7,7 @@ import gsap from 'gsap'
 import ConfirmRidePopUpRef from '../components/ConfirmRidePopUpRef'
 import {CaptainDataContext} from '../context/CaptainContext'
 import {SocketContext} from '../context/SocketContext'
-import { header } from 'express-validator'
+
 import axios from 'axios'
 import LiveTracking from '../components/LiveTraking'
 
