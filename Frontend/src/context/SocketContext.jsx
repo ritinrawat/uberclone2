@@ -5,7 +5,10 @@ import { io } from 'socket.io-client';
 export const SocketContext = createContext();
 
 // Create a single socket instance
-const socket = io(`${import.meta.env.VITE_BASE_URL}`);
+const socket = io(`${import.meta.env.VITE_BASE_URL}`,{
+    withCredentials: true,
+  transports: ['websocket'], 
+});
 
 const SocketProvider = ({ children }) => {
     useEffect(() => {
