@@ -5,8 +5,9 @@ let io;
 function initializeSocket(server){
     io=socketIo(server,{
         cors:{
-            origin:'*',
-            method:['GET',"POST"]
+            origin:'https://uberclone2-1.onrender.com',
+            method:['GET',"POST"],
+            credentials: true 
         }
     })
  io.on('connection',(socket)=>{
