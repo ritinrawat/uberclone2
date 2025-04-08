@@ -10,6 +10,7 @@ const socket = io(`${import.meta.env.VITE_BASE_URL}`,{
   transports: ['websocket'], 
 });
 
+
 const SocketProvider = ({ children }) => {
     useEffect(() => {
         // Handle connection event
