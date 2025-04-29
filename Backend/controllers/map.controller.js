@@ -38,8 +38,7 @@ module.exports.getAutoCompleteSuggestion=async( req,res,next)=>{
       }
       const {input}= req.query
       const suggestions= await mapService.getAutoCompleteSuggestion(input)
-      res.status(200).json(suggestions )
-    
+      res.status(200).json(suggestions)
    }catch(err){
    console.log(err);
    res.status(500).json({message:'Internal server error'})
