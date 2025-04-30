@@ -18,7 +18,7 @@ const LiveTracking = ({ ride }) => {
 
   // Load Google Maps
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: React_GOOGLE_MAPS_API, // Replace this with your actual key
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API, // Replace this with your actual key
   });
 
   useEffect(() => {
