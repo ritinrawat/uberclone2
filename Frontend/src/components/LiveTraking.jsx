@@ -1,57 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import React, { useEffect, useState, useCallback } from "react";
+import {
+  GoogleMap,
+  Marker,
+  Polyline,
+  useJsApiLoader,
+} from "@react-google-maps/api";
 
-// Fix marker icon issue in Leaflet
-import icon from "leaflet/dist/images/marker-icon.png";
-import iconShadow from "leaflet/dist/images/marker-shadow.png";
-
-// Default Blue Marker Icon
-let DefaultIcon = L.icon({
-  iconUrl: icon,
-  shadowUrl: iconShadow,
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-});
-
-// Green Marker for Pickup Location
-const greenIcon = new L.Icon({
-  iconUrl: "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41]
-});
-
-L.Marker.prototype.options.icon = DefaultIcon;
+const containerStyle = {
+  width: "100%",
+  height: "100%",
+};
 
 const LiveTracking = ({ ride }) => {
   const [location, setLocation] = useState(null);
   const [location2, setLocation2] = useState(null);
-  const [userlocation,setUserlocation]=useState(null)
-  const [mapCenter, setMapCenter] = useState([20, 78]); // Default location (India)
+  const [mapCenter, setMapCenter] = useState({ lat: 20, lng: 78 });
+
+  // Load Google Maps
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: "YOUR_GOOGLE_MAPS_API_KEY", // Replace this with your actual key
+  });
 
   useEffect(() => {
     let watchId;
 
     if (ride?.pickUpCoordination && ride?.destinationCoordination) {
-      // Set pickup and destination locations
       const pickup = {
-        lat: ride.pickUpCoordination.ltd, // FIXED: Used correct 'lat'
+        lat: ride.pickUpCoordination.ltd,
         lng: ride.pickUpCoordination.lng,
       };
       const destination = {
-        lat: ride.destinationCoordination.ltd, // FIXED: Used correct 'lat'
+        lat: ride.destinationCoordination.ltd,
         lng: ride.destinationCoordination.lng,
       };
 
       setLocation(pickup);
       setLocation2(destination);
-      setMapCenter(pickup); // Center map on pickup location
+      setMapCenter(pickup);
     } else {
-      // Get user's live location if no ride coordinates exist
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const userLocation = {
@@ -59,7 +45,7 @@ const LiveTracking = ({ ride }) => {
             lng: position.coords.longitude,
           };
           setLocation(userLocation);
-          setMapCenter(userLocation); // Set initial map center
+          setMapCenter(userLocation);
         },
         (error) => {
           console.error("Error getting initial location:", error);
@@ -75,7 +61,7 @@ const LiveTracking = ({ ride }) => {
           });
         },
         (error) => {
-          console.error("Error getting location:", error);
+          console.error("Error getting live location:", error);
         },
         { enableHighAccuracy: true, maximumAge: 0 }
       );
@@ -86,50 +72,52 @@ const LiveTracking = ({ ride }) => {
     };
   }, [ride]);
 
+  if (!isLoaded) {
+    return (
+      <div className="fixed inset-0 flex items-center justify-center bg-white z-50">
+        <div className="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
+        <p className="text-center p-3">Loading Google Maps...</p>
+      </div>
+    );
+  }
+
   return (
-   <div className="relative w-full h-[calc(75vh-150px)]">
-  {location || location2 ? ( // Show the map if AT LEAST one location is available
-    <MapContainer 
-      key={`${location?.lat || location2?.lat}-${location?.lng || location2?.lng}`} // Prevent stale rendering
-      center={location || location2} // Center on the available location
-      zoom={15} 
-      className="w-full h-full rounded-lg overflow-hidden z-0"
-    >
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
-
-      {/* Pickup Marker (Only show if available) */}
-      {location && (
-        <Marker position={location}>
-          <Popup>Pickup Location 🚖</Popup>
-        </Marker>
-      )}
-
-      {/* Destination Marker (Only show if available) */}
-      {location2 && (
-        <Marker position={location2} icon={greenIcon}>
-          <Popup>Destination 📍</Popup>
-        </Marker>
-      )}
-
-      {/* Polyline (Only if BOTH locations exist) */}
-      {location && location2 && (
-        <Polyline 
-          positions={[location, location2]} 
-          pathOptions={{ color: "green", weight: 5, opacity: 0.7, dashArray: "10, 10" }} 
-        />
-      )}
-    </MapContainer>
-  ) : (
-   
-    <div class="fixed inset-0 flex items-center justify-center bg-white z-50">
-  <div class="w-12 h-12 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
-  <p className="text-center p-3">Loading your location...</p>
-</div>
-  )}
-</div>
+    <div className="relative w-full h-[calc(75vh-150px)]">
+      <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={mapCenter}
+        zoom={15}
+        options={{
+          mapTypeControl: false,
+          streetViewControl: false,
+          fullscreenControl: false,
+        }}
+      >
+        {location && <Marker position={location} label="🚖" />}
+        {location2 && <Marker position={location2} label="📍" />}
+        {location && location2 && (
+          <Polyline
+            path={[location, location2]}
+            options={{
+              strokeColor: "#00FF00",
+              strokeOpacity: 0.8,
+              strokeWeight: 5,
+              icons: [
+                {
+                  icon: {
+                    path: "M 0,-1 0,1",
+                    strokeOpacity: 1,
+                    scale: 4,
+                  },
+                  offset: "0",
+                  repeat: "10px",
+                },
+              ],
+            }}
+          />
+        )}
+      </GoogleMap>
+    </div>
   );
 };
 
