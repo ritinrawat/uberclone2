@@ -69,7 +69,7 @@ const LiveTracking = ({ ride }) => {
   }, [ride]);
 
   useEffect(() => {
-    if (location && destination) {
+    if (location && destination && window.google) {
       const directionsService = new window.google.maps.DirectionsService();
 
       directionsService.route(
@@ -112,7 +112,19 @@ const LiveTracking = ({ ride }) => {
       >
         {location && <Marker position={location} label="🚖" />}
         {destination && <Marker position={destination} label="📍" />}
-        {directions && <DirectionsRenderer directions={directions} />}
+        {directions && (
+          <DirectionsRenderer
+            directions={directions}
+            options={{
+              suppressMarkers: true,
+              polylineOptions: {
+                strokeColor: "#0000FF", // Blue color for the route
+                strokeOpacity: 0.9,
+                strokeWeight: 6,
+              },
+            }}
+          />
+        )}
       </GoogleMap>
     </div>
   );
