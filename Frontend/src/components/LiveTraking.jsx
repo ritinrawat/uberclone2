@@ -1,8 +1,8 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import {
   GoogleMap,
   Marker,
-  Polyline,
+  DirectionsRenderer,
   useJsApiLoader,
 } from "@react-google-maps/api";
 
@@ -13,12 +13,12 @@ const containerStyle = {
 
 const LiveTracking = ({ ride }) => {
   const [location, setLocation] = useState(null);
-  const [location2, setLocation2] = useState(null);
+  const [destination, setDestination] = useState(null);
   const [mapCenter, setMapCenter] = useState({ lat: 20, lng: 78 });
+  const [directions, setDirections] = useState(null);
 
-  // Load Google Maps
   const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API, // Replace this with your actual key
+    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API,
   });
 
   useEffect(() => {
@@ -29,13 +29,13 @@ const LiveTracking = ({ ride }) => {
         lat: ride.pickUpCoordination.ltd,
         lng: ride.pickUpCoordination.lng,
       };
-      const destination = {
+      const dest = {
         lat: ride.destinationCoordination.ltd,
         lng: ride.destinationCoordination.lng,
       };
 
       setLocation(pickup);
-      setLocation2(destination);
+      setDestination(dest);
       setMapCenter(pickup);
     } else {
       navigator.geolocation.getCurrentPosition(
@@ -47,9 +47,7 @@ const LiveTracking = ({ ride }) => {
           setLocation(userLocation);
           setMapCenter(userLocation);
         },
-        (error) => {
-          console.error("Error getting initial location:", error);
-        },
+        (error) => console.error("Geolocation error:", error),
         { enableHighAccuracy: true, maximumAge: 0 }
       );
 
@@ -60,9 +58,7 @@ const LiveTracking = ({ ride }) => {
             lng: position.coords.longitude,
           });
         },
-        (error) => {
-          console.error("Error getting live location:", error);
-        },
+        (error) => console.error("Live location error:", error),
         { enableHighAccuracy: true, maximumAge: 0 }
       );
     }
@@ -71,6 +67,27 @@ const LiveTracking = ({ ride }) => {
       if (watchId) navigator.geolocation.clearWatch(watchId);
     };
   }, [ride]);
+
+  useEffect(() => {
+    if (location && destination) {
+      const directionsService = new window.google.maps.DirectionsService();
+
+      directionsService.route(
+        {
+          origin: location,
+          destination: destination,
+          travelMode: window.google.maps.TravelMode.DRIVING,
+        },
+        (result, status) => {
+          if (status === window.google.maps.DirectionsStatus.OK) {
+            setDirections(result);
+          } else {
+            console.error("Directions request failed due to:", status);
+          }
+        }
+      );
+    }
+  }, [location, destination]);
 
   if (!isLoaded) {
     return (
@@ -86,7 +103,7 @@ const LiveTracking = ({ ride }) => {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={mapCenter}
-        zoom={15}
+        zoom={14}
         options={{
           mapTypeControl: false,
           streetViewControl: false,
@@ -94,28 +111,8 @@ const LiveTracking = ({ ride }) => {
         }}
       >
         {location && <Marker position={location} label="🚖" />}
-        {location2 && <Marker position={location2} label="📍" />}
-        {location && location2 && (
-          <Polyline
-            path={[location, location2]}
-            options={{
-              strokeColor: "#00FF00",
-              strokeOpacity: 0.8,
-              strokeWeight: 5,
-              icons: [
-                {
-                  icon: {
-                    path: "M 0,-1 0,1",
-                    strokeOpacity: 1,
-                    scale: 4,
-                  },
-                  offset: "0",
-                  repeat: "10px",
-                },
-              ],
-            }}
-          />
-        )}
+        {destination && <Marker position={destination} label="📍" />}
+        {directions && <DirectionsRenderer directions={directions} />}
       </GoogleMap>
     </div>
   );
