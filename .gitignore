@@ -18,5 +18,3 @@ yarn-debug.log*
 Thumbs.db
 
 # Ignore build files (optional)
-dist/
-build/
