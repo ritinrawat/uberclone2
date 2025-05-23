@@ -11,10 +11,10 @@ const mapRoutes=require('./router/maps.routes')
 const rideRoutes = require('./router/ride.routes')
 const cors=require('cors')
 const path = require('path');
-app.use(express.static(path.join(__dirname, '../frontend/build')));
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/build/index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'));
 });
 app.use(cors({
     origin: 'https://uberclone2-1.onrender.com',
